@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+    <style>
+      
+      #map {
+          
+        height: 50%;
+        width:50%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+ 
+    </style>
+  </head>
+  <body>
+      <table>
+          <tr>
+              <td>
+    <div>
+    <b>Start: </b>
+    <input type="text" id="start">
+       
+    
+    <b>End: </b>
+    <input type="text" id="end">
+
+    <input type="button" value="Go" onclick="initMap(1)">
+    </div>
+              </td>
+    </tr>
+    
+    <div id="map"></div>
+        
+      </table>
+    <script>
+      function initMap(flag) {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: {lat: 19.0760, lng: 72.8777}
+        });
+        directionsDisplay.setMap(map);
+      
+        
+            if(flag==1)
+            {
+          calculateAndDisplayRoute(directionsService, directionsDisplay);
+            }
+       
+      }
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        directionsService.route({
+          origin: document.getElementById('start').value,
+          destination: document.getElementById('end').value,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwFnwQTs0qn9lIm4iZJGXutrCKhu_ReJk&callback=initMap">
+    </script>
+  </body>
+</html>
